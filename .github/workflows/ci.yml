@@ -27,7 +27,7 @@ jobs:
         with:
           commit_message: Updated screenshots
           branch: main
-          file_pattern: *.png
+          file_pattern: '*.png'
 
       - name: Semantic Release 🚀
         uses: cycjimmy/semantic-release-action@v2
