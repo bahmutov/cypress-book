@@ -5,5 +5,8 @@ describe('cypress-book', () => {
     cy.log('**checking the header ✅**')
     cy.contains('h1', 'Kitchen Sink').should('be.visible')
     cy.screenshot('hello-world', { capture: 'runner', log: false })
+
+    // you can take screenshot of the app only
+    cy.screenshot('hello-world-page')
   })
 })

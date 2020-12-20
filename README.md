@@ -29,7 +29,21 @@ Now all screenshots captured will be copied into the `images` folder IF the scre
 
 See an example test in [cypress/integration/spec.js](cypress/integration/spec.js).
 
+The screenshot below was taking using command
+
+```js
+cy.screenshot('hello-world', { capture: 'runner', log: false })
+```
+
 ![Example screenshot of the test above](./images/hello-world.png)
+
+You can take the screenshot of the app only without the test runner UI
+
+```js
+cy.screenshot('hello-world-page')
+```
+
+![The app only](./images/hello-world-page.png)
 
 You should commit the changed files on CI and push back to the repository. See the example GitHub Actions workflow file [.github/workflows/ci.yml](.github/workflows/ci.yml)
 
