@@ -12,13 +12,26 @@ npm i -D cypress-book
 yarn add -D cypress-book
 ```
 
-TODO
-
 ## Use
+
+Add to the Cypress plugins file
+
+```js
+// cypress/plugins/index.js
+const { registerPlugin } = require('cypress-book')
+
+module.exports = (on, config) => {
+  registerPlugin(on, config)
+}
+```
+
+Now all screenshots captured will be copied into the `images` folder IF the screenshot is missing, or if the tests are running on CI and the size is different from previous.
 
 See an example test in [cypress/integration/spec.js](cypress/integration/spec.js).
 
 ![Example screenshot of the test above](./images/hello-world.png)
+
+You should commit the changed files on CI and push back to the repository. See the example GitHub Actions workflow file [.github/workflows/ci.yml](.github/workflows/ci.yml)
 
 ## Debugging
 
