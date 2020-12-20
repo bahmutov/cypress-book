@@ -1,6 +1,6 @@
 {
   "name": "cypress-book",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "description": "Utilities for updating Cypress screenshots saved as repo images",
   "main": "src/index.js",
   "files": [
@@ -8,11 +8,12 @@
   ],
   "scripts": {
     "test": "cypress-expect run --passing 1",
-    "cy:open": "cypress open"
+    "cy:open": "cypress open",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bahmutov/cypress-book.git"
+    "url": "https://github.com/bahmutov/cypress-book.git"
   },
   "keywords": [
     "cypress",
@@ -29,7 +30,8 @@
     "@types/node": "14.14.14",
     "cypress": "6.1.0",
     "cypress-expect": "2.2.1",
-    "prettier": "2.2.1"
+    "prettier": "2.2.1",
+    "semantic-release": "^17.3.0"
   },
   "dependencies": {
     "debug": "4.3.1",
