@@ -1,0 +1,30 @@
+{
+  "name": "cypress-book",
+  "version": "1.0.0",
+  "description": "Utilities for updating Cypress screenshots saved as repo images",
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "test": "cypress run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bahmutov/cypress-book.git"
+  },
+  "keywords": [
+    "cypress",
+    "markdown",
+    "screenshots"
+  ],
+  "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bahmutov/cypress-book/issues"
+  },
+  "homepage": "https://github.com/bahmutov/cypress-book#readme",
+  "devDependencies": {
+    "cypress": "6.1.0"
+  }
+}
