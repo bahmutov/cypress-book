@@ -7,10 +7,27 @@ jobs:
       - name: Checkout 🛎
         uses: actions/checkout@v2
 
+      # https://github.com/actions/virtual-environments/issues/710
+      - name: Add emoji font 🤩
+        run: sudo apt-get install fonts-noto-color-emoji -y
+
       - name: Run tests 🧪
         uses: cypress-io/github-action@v2
+        env:
+          DEBUG: cypress-book
         with:
           command: npm t
+
+      # now let's see any changed files
+      - name: See changed files 👀
+        run: git status
+
+      - name: Commit any changed files 💾
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Updated screenshots
+          branch: main
+          file_pattern: *.png
 
       - name: Semantic Release 🚀
         uses: cycjimmy/semantic-release-action@v2
