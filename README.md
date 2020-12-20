@@ -16,7 +16,13 @@ TODO
 
 ## Use
 
-TODO
+See an example test in [cypress/integration/spec.js](cypress/integration/spec.js).
+
+![Example screenshot of the test above](./images/hello-world.png)
+
+## Debugging
+
+Run the tests with `DEBUG=cypress-book` environment variable to see verbose log messages using [debug](https://www.npmjs.com/package/debug) module.
 
 ## Examples
 
