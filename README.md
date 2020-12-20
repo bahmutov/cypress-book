@@ -45,6 +45,8 @@ cy.screenshot('hello-world-page')
 
 ![The app only](./images/hello-world-page.png)
 
+The screenshots are taken using [cy.screenshot](https://on.cypress.io/screenshot) command.
+
 You should commit the changed files on CI and push back to the repository. See the example GitHub Actions workflow file [.github/workflows/ci.yml](.github/workflows/ci.yml)
 
 ## Debugging

@@ -7,6 +7,8 @@ describe('cypress-book', () => {
     cy.screenshot('hello-world', { capture: 'runner', log: false })
 
     // you can take screenshot of the app only
-    cy.screenshot('hello-world-page')
+    cy.screenshot('hello-world-page', {
+      clip: { x: 0, y: 0, width: 700, height: 500 },
+    })
   })
 })
