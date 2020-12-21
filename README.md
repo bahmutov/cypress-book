@@ -63,6 +63,42 @@ By default the images are copied to `images` folder. You can change the name of 
 }
 ```
 
+Instead of a single output folder, you can create folders relative to the spec file by using relative path in `imageFolder` value.
+
+```json
+{
+  "env": {
+    "cypress-book": {
+      "imageFolder": "./pics"
+    }
+  }
+}
+```
+
+In the above scenario, if the specs are
+
+```
+cypress/
+  integration/
+    features/
+      login-spec.js
+    spec.js
+```
+
+And each spec saves screenshots, then they will be copied into:
+
+```
+cypress/
+  integration/
+    features/
+      pics/
+        screenshots ...
+      login-spec.js
+    picks/
+      screenshots ...
+    spec.js
+```
+
 ## Debugging
 
 Run the tests with `DEBUG=cypress-book` environment variable to see verbose log messages using [debug](https://www.npmjs.com/package/debug) module.
