@@ -6,8 +6,17 @@ const debug = require('debug')('cypress-book')
 // running on CI only, and not on every user's machine
 const isCI = require('is-ci')
 
-const registerPlugin = (on, config) => {
-  // create the destination folder if does not exist yet
+/**
+ * If the user sets the output folder as a name, then it is a folder
+ * name from the root of the project. If the user uses relative path
+ * in the folder name like "./images", then we the final output folder
+ * is relative to the image name.
+ *
+ * @param {string} folderName The output folder name
+ */
+const isSaveFolderRelativeToImage = (folderName) => folderName.startsWith('.')
+
+const getOutputImagePath = (config, screenshotDetails) => {
   let imagesFolder = 'images'
   if (
     config.env &&
@@ -16,12 +25,35 @@ const registerPlugin = (on, config) => {
   ) {
     imagesFolder = config.env['cypress-book'].imageFolder
   }
-  debug('output folder %s', imagesFolder)
+  const isRelativeToImage = isSaveFolderRelativeToImage(imagesFolder)
+  if (isRelativeToImage) {
+    const fullSpecFolder = path.dirname(
+      path.join(config.integrationFolder, screenshotDetails.specName),
+    )
+    debug('spec folder %s', fullSpecFolder)
+    const targetImagePath = path.join(
+      fullSpecFolder,
+      imagesFolder,
+      screenshotDetails.name + '.png',
+    )
+    return targetImagePath
+  } else {
+    const targetImagePath = path.join(
+      imagesFolder,
+      screenshotDetails.name + '.png',
+    )
+    return targetImagePath
+  }
+}
 
+const makeFolder = (imagesFolder) => {
   try {
-    fs.mkdirSync(imagesFolder)
+    fs.mkdirSync(imagesFolder, { recursive: true })
+    debug('created folder %s', imagesFolder)
   } catch (e) {}
+}
 
+const registerPlugin = (on, config) => {
   // modify saved screenshots using
   // https://on.cypress.io/after-screenshot-api
   on('after:screenshot', (details) => {
@@ -36,7 +68,13 @@ const registerPlugin = (on, config) => {
       return
     }
 
-    const targetImagePath = path.join(imagesFolder, details.name + '.png')
+    const targetImagePath = getOutputImagePath(config, details)
+    debug('target image path: %s', targetImagePath)
+    if (!targetImagePath) {
+      throw new Error('Could not compute target image folder')
+    }
+    // create the destination folder if does not exist yet
+    makeFolder(path.dirname(targetImagePath))
 
     // here is a good change to modify the image:
     // add watermarks, text. Maybe even upload the image
