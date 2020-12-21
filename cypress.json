@@ -3,7 +3,8 @@
   "supportFile": false,
   "env": {
     "cypress-book": {
-      "imageFolder": "images"
+      "imageFolder": "images",
+      "tolerance": 0.005
     }
   }
 }

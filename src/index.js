@@ -53,6 +53,20 @@ const makeFolder = (imagesFolder) => {
   } catch (e) {}
 }
 
+const getTolerance = (config) => {
+  const defaultTolerance = 0.001 // 0.1% percent in byte size
+
+  const pluginConfig = config.env && config.env['cypress-book']
+  if (!pluginConfig) {
+    return defaultTolerance
+  }
+  if (!('tolerance' in pluginConfig)) {
+    return defaultTolerance
+  }
+
+  return parseFloat(pluginConfig.tolerance)
+}
+
 const registerPlugin = (on, config) => {
   // modify saved screenshots using
   // https://on.cypress.io/after-screenshot-api
@@ -94,9 +108,15 @@ const registerPlugin = (on, config) => {
       }
 
       debug('checking image sizes before overwriting')
+      const tolerance = getTolerance(config)
+      if (typeof tolerance !== 'number') {
+        throw new Error(
+          `Expected tolerance to be a number, was ${tolerance} with type ${typeof tolerance}`,
+        )
+      }
       const capturedImageSize = fs.statSync(details.path).size
       const targetImageSize = fs.statSync(targetImagePath).size
-      const tolerance = 0.001 // 0.1% percent in byte size
+
       const byteDifferenceRatio =
         Math.abs(capturedImageSize - targetImageSize) / targetImageSize
 

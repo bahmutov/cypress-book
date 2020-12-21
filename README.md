@@ -99,6 +99,22 @@ cypress/
     spec.js
 ```
 
+### Tolerance
+
+Is measured using image byte sizes. You can give the tolerance to consider the images the same.
+
+```json
+{
+  "env": {
+    "cypress-book": {
+      "tolerance": 0.005
+    }
+  }
+}
+```
+
+The above setting considers the images that are within half percent in byte size to be the same.
+
 ## Debugging
 
 Run the tests with `DEBUG=cypress-book` environment variable to see verbose log messages using [debug](https://www.npmjs.com/package/debug) module.
