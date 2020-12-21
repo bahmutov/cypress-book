@@ -1,4 +1,9 @@
 {
   "fixturesFolder": false,
-  "supportFile": false
+  "supportFile": false,
+  "env": {
+    "cypress-book": {
+      "imageFolder": "images"
+    }
+  }
 }
