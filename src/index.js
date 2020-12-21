@@ -8,7 +8,16 @@ const isCI = require('is-ci')
 
 const registerPlugin = (on, config) => {
   // create the destination folder if does not exist yet
-  const imagesFolder = 'images'
+  let imagesFolder = 'images'
+  if (
+    config.env &&
+    config.env['cypress-book'] &&
+    config.env['cypress-book'].imageFolder
+  ) {
+    imagesFolder = config.env['cypress-book'].imageFolder
+  }
+  debug('output folder %s', imagesFolder)
+
   try {
     fs.mkdirSync(imagesFolder)
   } catch (e) {}

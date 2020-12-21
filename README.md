@@ -49,6 +49,20 @@ The screenshots are taken using [cy.screenshot](https://on.cypress.io/screenshot
 
 You should commit the changed files on CI and push back to the repository. See the example GitHub Actions workflow file [.github/workflows/ci.yml](.github/workflows/ci.yml)
 
+### Output folder
+
+By default the images are copied to `images` folder. You can change the name of the output folder using [Cypress environment variables](https://on.cypress.io/environment-variables). For example using the `cypress.json` file, we can direct the plugin to save the images in `images2` folder.
+
+```json
+{
+  "env": {
+    "cypress-book": {
+      "imageFolder": "images2"
+    }
+  }
+}
+```
+
 ## Debugging
 
 Run the tests with `DEBUG=cypress-book` environment variable to see verbose log messages using [debug](https://www.npmjs.com/package/debug) module.
