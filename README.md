@@ -1,5 +1,5 @@
 # cypress-book
-[![ci status][ci image]][ci url] [![badges status][badges image]][badges url] [![renovate-app badge][renovate-badge]][renovate-app] ![cypress version](https://img.shields.io/badge/cypress-6.4.0-brightgreen)
+[![ci status][ci image]][ci url] [![badges status][badges image]][badges url] [![renovate-app badge][renovate-badge]][renovate-app] ![cypress version](https://img.shields.io/badge/cypress-6.5.0-brightgreen)
 > Utilities for updating Cypress screenshots saved as repo images
 
 ## Install
