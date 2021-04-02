@@ -6,6 +6,7 @@ const isCI = require('is-ci')
 const fs = require('fs')
 const path = require('path')
 const debug = require('debug')('cypress-book')
+const R = require('ramda')
 
 /**
  * If the user sets the output folder as a name, then it is a folder
@@ -51,7 +52,7 @@ const copyImage = (options) => {
   debug('copy image options %o', options)
 
   return new Promise((resolve, reject) => {
-    const { tolerance } = options
+    const tolerance = R.propOr(0.001, 'tolerance', options)
 
     const inputImagePath = options.inputImagePath || options.path
     if (!inputImagePath) {
