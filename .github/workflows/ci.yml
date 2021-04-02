@@ -3,6 +3,8 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      DEBUG: cypress-book
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v2
@@ -13,12 +15,14 @@ jobs:
 
       - name: Run tests 🧪
         uses: cypress-io/github-action@v2
-        env:
-          DEBUG: cypress-book
         with:
           command: npm t
 
-      # TODO: "manually" copy a screenshot we want to use as social image
+      - name: Copy social image
+        run: |
+          node ./bin/copy-image \
+            --screenshot cypress/screenshots/social-image-spec.js/social-image.png \
+            --output images/social.png
 
       # now let's see any changed files
       - name: See changed files 👀
