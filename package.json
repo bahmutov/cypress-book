@@ -13,7 +13,8 @@
   "scripts": {
     "test": "cypress-expect run --passing 2",
     "cy:open": "cypress open",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "social:image": "node bin/copy-image -s cypress/screenshots/social-image-spec.js/social-image.png -o images/social.png"
   },
   "repository": {
     "type": "git",
