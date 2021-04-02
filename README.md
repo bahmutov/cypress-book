@@ -115,6 +115,26 @@ Is measured using image byte sizes. You can give the tolerance to consider the i
 
 The above setting considers the images that are within half percent in byte size to be the same.
 
+### Exclude images
+
+You might not want to copy every screenshot to the images folder. You can skip screenshots using their name by setting a list in the `cypress.json` configuration file:
+
+```json
+{
+  "env": {
+    "cypress-book": {
+      "excludeImages": ["social-image"]
+    }
+  }
+}
+```
+
+Later on, the screenshot "social-image" will be skipped
+
+```js
+cy.screenshot('social-image')
+```
+
 ## Debugging
 
 Run the tests with `DEBUG=cypress-book` environment variable to see verbose log messages using [debug](https://www.npmjs.com/package/debug) module.

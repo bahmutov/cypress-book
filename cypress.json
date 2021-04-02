@@ -4,7 +4,8 @@
   "env": {
     "cypress-book": {
       "imageFolder": "images",
-      "tolerance": 0.005
+      "tolerance": 0.005,
+      "excludeImages": ["social-image"]
     }
   }
 }

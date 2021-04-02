@@ -18,6 +18,8 @@ jobs:
         with:
           command: npm t
 
+      # TODO: "manually" copy a screenshot we want to use as social image
+
       # now let's see any changed files
       - name: See changed files 👀
         run: git status

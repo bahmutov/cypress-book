@@ -19,6 +19,15 @@ const registerPlugin = (on, config) => {
       return
     }
 
+    const excludeImages = R.pathOr(
+      [],
+      ['env', 'cypress-book', 'excludeImages'],
+    )(config)
+    if (excludeImages.includes(details.name)) {
+      console.log('skipping copying excluded screenshot %s', details.name)
+      return
+    }
+
     const getImageFolderName = R.pathOr('images', [
       'env',
       'cypress-book',

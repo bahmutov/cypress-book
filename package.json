@@ -7,7 +7,7 @@
     "src"
   ],
   "scripts": {
-    "test": "cypress-expect run --passing 1",
+    "test": "cypress-expect run --passing 2",
     "cy:open": "cypress open",
     "semantic-release": "semantic-release"
   },
