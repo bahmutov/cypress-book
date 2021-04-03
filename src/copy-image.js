@@ -6,6 +6,7 @@ const isCI = require('is-ci')
 const fs = require('fs')
 const path = require('path')
 const debug = require('debug')('cypress-book')
+const R = require('ramda')
 
 /**
  * If the user sets the output folder as a name, then it is a folder
@@ -43,78 +44,95 @@ const getOutputImagePath = (options = {}) => {
 const makeFolder = (imagesFolder) => {
   try {
     fs.mkdirSync(imagesFolder, { recursive: true })
-    debug('created folder %s', imagesFolder)
+    debug('created folder "%s"', imagesFolder)
   } catch (e) {}
 }
 
 const copyImage = (options) => {
   debug('copy image options %o', options)
 
-  const { tolerance } = options
-
-  const targetImagePath = getOutputImagePath(options)
-
-  debug('target image path: %s', targetImagePath)
-  if (!targetImagePath) {
-    throw new Error('Could not compute target image folder')
-  }
-  // create the destination folder if does not exist yet
-  makeFolder(path.dirname(targetImagePath))
-
-  // here is a good change to modify the image:
-  // add watermarks, text. Maybe even upload the image
-  // to an external host rather than keep it in the repo
-
-  // we could also only copy images on CI or for
-  // each OS platform separately
-  // for example, we might want to copy the image
-  // on the user's machine the first time, but not replace an
-  // existing screenshot. If you do want to replace the
-  // screenshot locally - delete the file from
-  // the "images" folder and run the test
-  if (fs.existsSync(targetImagePath)) {
-    if (!isCI) {
-      console.log('skipping overwriting existing image %s', targetImagePath)
-      return
-    }
-
-    debug('checking image sizes before overwriting')
-    if (typeof tolerance !== 'number') {
-      throw new Error(
-        `Expected tolerance to be a number, was ${tolerance} with type ${typeof tolerance}`,
-      )
-    }
-    const capturedImageSize = fs.statSync(options.path).size
-    const targetImageSize = fs.statSync(targetImagePath).size
-
-    const byteDifferenceRatio =
-      Math.abs(capturedImageSize - targetImageSize) / targetImageSize
-
-    debug('captured image byte size %d at %s', capturedImageSize, options.path)
-    debug('existing image byte size %d at %s', targetImageSize, targetImagePath)
-    debug(
-      'byte difference ratio %d tolerance %d',
-      byteDifferenceRatio,
-      tolerance,
-    )
-
-    if (byteDifferenceRatio < tolerance) {
-      console.log(
-        'new image size is within %d%% of the existing image in byte size',
-        tolerance * 100,
-      )
-      console.log('skipping overwriting existing image %s', targetImagePath)
-      return
-    }
-  }
-
   return new Promise((resolve, reject) => {
+    const tolerance = R.propOr(0.001, 'tolerance', options)
+
+    const inputImagePath = options.inputImagePath || options.path
+    if (!inputImagePath) {
+      return reject(new Error('Missing input image path'))
+    }
+    const targetImagePath =
+      options.outputFilename || getOutputImagePath(options)
+
+    debug('target image path: %s', targetImagePath)
+    if (!targetImagePath) {
+      return reject(new Error('Could not compute target image folder'))
+    }
+    // create the destination folder if does not exist yet
+    makeFolder(path.dirname(targetImagePath))
+
+    // here is a good change to modify the image:
+    // add watermarks, text. Maybe even upload the image
+    // to an external host rather than keep it in the repo
+
+    // we could also only copy images on CI or for
+    // each OS platform separately
+    // for example, we might want to copy the image
+    // on the user's machine the first time, but not replace an
+    // existing screenshot. If you do want to replace the
+    // screenshot locally - delete the file from
+    // the "images" folder and run the test
+    if (fs.existsSync(targetImagePath)) {
+      if (!isCI) {
+        console.log('skipping overwriting existing image %s', targetImagePath)
+        return resolve({})
+      }
+
+      debug('checking image sizes before overwriting')
+      if (typeof tolerance !== 'number') {
+        return reject(
+          new Error(
+            `Expected tolerance to be a number, was ${tolerance} with type ${typeof tolerance}`,
+          ),
+        )
+      }
+      const capturedImageSize = fs.statSync(inputImagePath).size
+      const targetImageSize = fs.statSync(targetImagePath).size
+
+      const byteDifferenceRatio =
+        Math.abs(capturedImageSize - targetImageSize) / targetImageSize
+
+      debug(
+        'captured image byte size %d at %s',
+        capturedImageSize,
+        inputImagePath,
+      )
+      debug(
+        'existing image byte size %d at %s',
+        targetImageSize,
+        targetImagePath,
+      )
+      debug(
+        'byte difference ratio %d tolerance %d',
+        byteDifferenceRatio,
+        tolerance,
+      )
+
+      if (byteDifferenceRatio < tolerance) {
+        console.log(
+          'new image size is within %d%% of the existing image in byte size',
+          tolerance * 100,
+        )
+        console.log('skipping overwriting existing image %s', targetImagePath)
+        return resolve({})
+      }
+    }
+
     // fs.rename moves the file to the existing directory 'new/path/to'
     // and renames the image to 'screenshot.png'
-    debug('renaming %s to %s', options.path, targetImagePath)
+    debug('renaming %s to %s', inputImagePath, targetImagePath)
 
-    fs.rename(options.path, targetImagePath, (err) => {
-      if (err) return reject(err)
+    fs.rename(inputImagePath, targetImagePath, (err) => {
+      if (err) {
+        return reject(err)
+      }
 
       // because we renamed and moved the image, resolve with the new path
       // so it is accurate in the test results

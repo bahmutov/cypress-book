@@ -4,12 +4,17 @@
   "description": "Utilities for updating Cypress screenshots saved as repo images",
   "main": "src/index.js",
   "files": [
+    "bin",
     "src"
   ],
+  "bin": {
+    "copy-image": "bin/copy-image.js"
+  },
   "scripts": {
     "test": "cypress-expect run --passing 2",
     "cy:open": "cypress open",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "social:image": "node bin/copy-image --screenshot cypress/screenshots/social-image-spec.js/social-image.png --output images/social.png"
   },
   "repository": {
     "type": "git",
@@ -34,6 +39,7 @@
     "semantic-release": "17.4.2"
   },
   "dependencies": {
+    "arg": "5.0.0",
     "debug": "4.3.1",
     "is-ci": "2.0.0",
     "ramda": "0.27.1"

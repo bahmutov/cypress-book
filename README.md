@@ -135,6 +135,20 @@ Later on, the screenshot "social-image" will be skipped
 cy.screenshot('social-image')
 ```
 
+## CLI
+
+This package provides a script to copy a given screenshot to the destination, but only replaces the destination image if the same rules apply:
+
+- the destination image does not exist yet
+- the copy runs on CI
+- the new image is different from the previous image
+
+Use:
+
+```
+$ npx copy-image --source "path/to/screenshot.png" --output "path/to/image.png"
+```
+
 ## Debugging
 
 Run the tests with `DEBUG=cypress-book` environment variable to see verbose log messages using [debug](https://www.npmjs.com/package/debug) module.
