@@ -33,7 +33,7 @@
   "homepage": "https://github.com/bahmutov/cypress-book#readme",
   "devDependencies": {
     "@types/node": "14.14.14",
-    "cypress": "9.6.0",
+    "cypress": "9.6.1",
     "cypress-expect": "2.5.2",
     "prettier": "2.2.1",
     "semantic-release": "19.0.2"
