@@ -14,7 +14,7 @@ jobs:
         run: sudo apt-get install fonts-noto-color-emoji -y
 
       - name: Run tests 🧪
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v7.4.0
         with:
           command: npm t
 
